@@ -25,16 +25,15 @@ RUN apt-get update \
        curl \
        unzip \
        git \
-       gradle \
-    && curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash - \
+       gradle
+RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash - \
     && apt-get update \
-    && apt-get install -y nodejs \
-    && npm install -g cordova @ionic/cli@${IONIC_VERSION} \
-    && cd /tmp \
+    && apt-get install -y nodejs
+RUN npm install -g cordova @ionic/cli@${IONIC_VERSION}
+RUN cd /tmp \
     && curl -fSLk https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip -o sdk-tools-linux-${ANDROID_SDK_VERSION}.zip \
-    && unzip sdk-tools-linux-${ANDROID_SDK_VERSION}.zip
-# break here in case things need tuning so we don't have to redownload everything all the time
-RUN mkdir /opt/android-sdk \
+    && unzip sdk-tools-linux-${ANDROID_SDK_VERSION}.zip \
+    && mkdir /opt/android-sdk \
     && mkdir /opt/android-sdk/cmdline-tools \
     && mv tools /opt/android-sdk/cmdline-tools \
     && yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
